@@ -1,13 +1,13 @@
 <template>
    <div class="product_list">
-      <div class="product">
-          <img src="../assets/image/food.png">
+      <div class="product" v-for="(item,index) in productsList" v-bind:key="index" @click="lookDetail(index)">
+          <img  :src="item.img">
           <div class="product_detail">
-             商品详情商品详情商品详情商品详情商品详情商品详情
+             {{item.detail}}
           </div>
           <div class="product_mes">
-              <div class="product_price">￥200</div>
-              <div class="product_stock">2324已售</div>
+              <div class="product_price">￥{{item.price}}</div>
+              <div class="product_stock">{{item.sold}}</div>
           </div>
       </div>
    </div>
@@ -16,15 +16,43 @@
 export default {
   data () {
     return {
-      products: {
-        test: ''
-      }
+      productsList: [
+        {
+          id: 1,
+          img: require('../assets/image/food.png'),
+          detail: '112232334343',
+          price: '200',
+          sold: '2324已售',
+          stock: 300
+
+        },
+        {
+          id: 2,
+          img: require('../assets/image/food2.png'),
+          detail: '美味美味好好吃美味美味好好吃美味美味好好吃',
+          price: '300',
+          sold: '2324已售',
+          stock: 1000
+        },
+        {
+          id: 3,
+          img: require('../assets/image/food3.png'),
+          detail: '112232334343',
+          price: '100',
+          sold: '23已售',
+          stock: 300
+        }
+      ]
+    }
+  },
+  methods: {
+    lookDetail  (index) {
+      this.$router.push({ name: 'productDetail', query: {id: index} })
     }
   },
   mounted () {
-    window.localStorage.products = JSON.stringify(this.products)
+    window.localStorage.products = JSON.stringify(this.productsList)
     // console.log(JSON.parse(window.localStorage.getItem('products')))
-    console.log(window.localStorage.products)
   }
 }
 </script>
@@ -34,9 +62,12 @@ export default {
   height: 245px;
   border: solid 1px #ececec;
   position: relative;
+  margin-right: 10px;
 }
+
 .product_list{
-  margin: 0 10px;
+  margin: 10px;
+  display: flex;
 }
 .product img {
   width: 180px;

@@ -6,7 +6,16 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    created () {
+      window.localStorage.address = JSON.stringify(this.$store.state.address)
+      localStorage.getItem('address') && this.$store.replaceState(JSON.parse(localStorage.getItem('address')))
+      window.addEventListener('beforeunload', () => {
+        localStorage.setItem('address', JSON.stringify(this.$store.state.address))
+      })
+    }
+  }
 }
 </script>
 
@@ -17,7 +26,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 
 }
 *{

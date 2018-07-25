@@ -2,7 +2,7 @@
   <div class="login-container">
     <main>
       <div class="login-form">
-        <el-form @keyup.enter.native="login" ref="form"  :model="form" :rules="rules" @validate="checkForm">
+        <el-form @keyup.enter.native="login" ref="form"  :model="form" :rules="rules">
           <div class="title">用户登录</div>
           <el-form-item prop="username">
             <el-input v-model="form.username" placeholder="用户账号"></el-input>
@@ -16,7 +16,6 @@
         </el-form>
       </div>
     </main>
-    <qm-footer></qm-footer>
   </div>
 </template>
 
@@ -45,9 +44,13 @@ export default {
     }
   },
   methods: {
-    login: function () {
+    login: function (e) {
+      console.log(e.target)
       if (this.form.username === 'admin123' && this.form.password === 'admin123') {
-        this.$router.push({ path: '/hello' })
+        window.localStorage.username = JSON.stringify(this.form.username)
+        this.$router.push({ path: '/product' })
+      } else {
+        this.$message.error('用户名密码错了哦！')
       }
     }
   }
@@ -57,8 +60,12 @@ export default {
 .login-form{
   width: 600px
 }
+.title{
+  margin-bottom: 10px;
+}
 .login-container{
   display: flex;
   justify-content:center;
+  margin-top: 60px;
 }
 </style>
